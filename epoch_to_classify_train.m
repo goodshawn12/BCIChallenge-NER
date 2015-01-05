@@ -1,6 +1,6 @@
 function [classifier_model, norm_model] = epoch_to_classify_train(in_data, svm_param, norm_setting)
 %% Vectorize
-[nsubj, nsessionl] = size(in_data);
+[nsubj, nsession] = size(in_data);
 for sub = 1:nsubj
     for ses = 1:nsession
         ntrial = length(in_data(sub, ses));

@@ -1,4 +1,4 @@
-function [labPr, acc] = epoch_to_classify_test(in_data, classifier_model, norm_model, svm_param)
+function [labPr] = epoch_to_classify_test(in_data, classifier_model, norm_model, svm_param)
 %% Vectorize
 [nsubj, nsession] = size(in_data);
 for sub = 1:nsubj
@@ -11,7 +11,7 @@ for sub = 1:nsubj
 end
 %% Normalization
 % get all data first, as normalization may need training
-[data] = get_data(in_data);
+data = get_data(in_data);
 % normalization
 for sub = 1:nsubj
     for ses = 1:nsession
@@ -23,7 +23,7 @@ for sub = 1:nsubj
     end
 end
 %% Classifier training
-[labPr, acc] = classifier_testing(in_data, classifier_model, svm_param);
+labPr = classifier_testing(in_data, classifier_model, svm_param);
 
 end
 

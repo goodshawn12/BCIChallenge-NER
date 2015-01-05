@@ -1,7 +1,7 @@
 % input predictions of testing trials
 % data length should be nSubj x (nSess x nTr + extraTr) = 3400
 
-function writeOutput(predictions)
+function writeOutput(predictions, filename)
 
 nSubj = 10;
 nSess = 5;
@@ -31,5 +31,5 @@ for it1 = 1:nSubj
 end
               
 T = cell2table(RESULTS,'VariableNames',{'IdFeedBack','Prediction'});
-writetable(T,'Sample.csv');
+writetable(T,filename);
 % type Sample.csv
