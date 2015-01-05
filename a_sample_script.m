@@ -14,6 +14,9 @@ norm_search = {[5], [6], [7], [8], [9], [3 9], [6 9]};
     %   8: normalize each row of a matrix to [0 1] (along 2nd dimension)
     %   9: normalize to [0 1] to self
 svm_param.classifier_type = 'LINEARSVM';
+svm_param.linearsvm = [];
+svm_param.libsvm = [];
+svm_param.gnb = [];
 %% search
 best_i = 0;
 best_acc = 0;
