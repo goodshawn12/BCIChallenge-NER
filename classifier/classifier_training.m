@@ -26,12 +26,13 @@ end % end of function
 function [data, label] = get_data(in_data)
     data = [];
     label = [];
-    [nsubj, nsession, ntrial] = size(in_data);
+    [nsubj, nsession] = size(in_data);
     for sub = 1:nsubj        
         for ses = 1:nsession
+            ntrial = length(in_data(sub, ses));
             for tri = 1:ntrial
-                data  = [data in_data(sub, ses, tri).data];
-                label = [label; in_data(sub, ses, tri).lab];
+                data  = [data in_data{sub, ses}(tri).data];
+                label = [label; in_data{sub, ses}(tri).lab];
             end
         end
     end

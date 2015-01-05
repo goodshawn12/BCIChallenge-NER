@@ -1,10 +1,11 @@
 function [classifier_model, norm_model] = epoch_to_classify_train(in_data, svm_param, norm_setting)
 %% Vectorize
-[nsubj, nsession, ntrial] = size(in_data);
+[nsubj, nsessionl] = size(in_data);
 for sub = 1:nsubj
     for ses = 1:nsession
+        ntrial = length(in_data(sub, ses));
         for tri = 1:ntrial
-            in_data(sub, ses, tri).data  = in_data(sub, ses, tri).data(:);            
+            in_data{sub, ses}(tri).data  = in_data{sub, ses}(tri).data(:);            
         end
     end
 end
@@ -17,8 +18,9 @@ end
 i = 1;
 for sub = 1:nsubj
     for ses = 1:nsession
+        ntrial = length(in_data(sub, ses));
         for tri = 1:ntrial
-            in_data(sub, ses, tri).data  = data(:,i);
+            in_data{sub, ses}(tri).data  = data(:,i);
             i = i+1;
         end
     end
@@ -31,11 +33,12 @@ end
 %% auxilary function
 function [data] = get_data(in_data)
     data = [];
-    [nsubj, nsession, ntrial] = size(in_data);
+    [nsubj, nsession] = size(in_data);
     for sub = 1:nsubj        
         for ses = 1:nsession
+            ntrial = length(in_data(sub, ses));
             for tri = 1:ntrial
-                data  = [data in_data(sub, ses, tri).data];               
+                data = [data in_data{sub, ses}(tri).data];               
             end
         end
     end
