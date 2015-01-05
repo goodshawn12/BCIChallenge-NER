@@ -1,3 +1,6 @@
+% input predictions of testing trials
+% data length should be nSubj x (nSess x nTr + extraTr) = 3400
+
 function writeOutput(predictions)
 
 nSubj = 10;
@@ -8,16 +11,6 @@ subjTr = nSess*nTr+extraTr;
 totalTr = nSubj*subjTr;
 
 subjIdx = [ 1, 3, 4, 5, 8, 9, 10, 15, 19, 25];
-
-% subjIdx = ['01', '03', '04', '05', '08', '09', '10', '15', '19', '25'};
-% RESULTS = {};
-% for it = 1:totalTr
-%     subjID = subjIdx{ceil(it/(nSess*nTr+40))};
-%     sessID = ceil(rem(it,nSess*nTr+40)/nTr);
-%     if sessID == 6, sessID = 5; end
-%     
-%     id = sprintf('S%s_Sess%s_FB%3s',subjIdx(), )
-% RESULTS = {RESULTS; 'S01_Sess01_FB001', 0}';
 
 RESULTS = cell(totalTr,2);
 for it1 = 1:nSubj
