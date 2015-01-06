@@ -32,13 +32,15 @@ test_data = data.dataTest;
 
 
 %% Feature extractions
-
+param = [];
+[train_data, trained_model] = feature_processor(train_data, test_data, param);
 
 %% Define settings
 % normalization method
-norm_setting = 6; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
+norm_setting = 0; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
 % classifier parameters
 svm_param.classifier_type = 'LINEARSVM';
+% svm_param.classifier_type = 'GNB';
 svm_param.linearsvm = [];
 svm_param.libsvm = [];
 svm_param.gnb.csfold = 5;
@@ -65,7 +67,7 @@ writeOutput(predictions, filename);
     %   1: sum to one
     %   2: square root
     %   3: cube root
-    %   4: tf-idf]
+    %   4: tf-idf
     %   5: z-score
     %   6: z-score (normalize to self)
     %   7: Euclidean
