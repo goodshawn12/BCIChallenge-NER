@@ -3,7 +3,7 @@ function [labPr] = epoch_to_classify_test(in_data, classifier_model, norm_model,
 [nsubj, nsession] = size(in_data);
 for sub = 1:nsubj
     for ses = 1:nsession
-        ntrial = length(in_data(sub, ses));
+        ntrial = length(in_data{sub, ses});
         for tri = 1:ntrial
             in_data{sub, ses}(tri).data  = in_data{sub, ses}(tri).data(:);            
         end
@@ -15,7 +15,7 @@ data = get_data(in_data);
 % normalization
 for sub = 1:nsubj
     for ses = 1:nsession
-        ntrial = length(in_data(sub, ses));
+        ntrial = length(in_data{sub, ses});
         for tri = 1:ntrial
             in_data{sub, ses}(tri).data  = ...
                 norm_model(in_data{sub, ses}(tri).data);            
@@ -33,7 +33,7 @@ function [data] = get_data(in_data)
     [nsubj, nsession] = size(in_data);
     for sub = 1:nsubj        
         for ses = 1:nsession
-            ntrial = length(in_data(sub, ses));
+            ntrial = length(in_data{sub, ses});
             for tri = 1:ntrial
                 data = [data in_data{sub, ses}(tri).data];               
             end
