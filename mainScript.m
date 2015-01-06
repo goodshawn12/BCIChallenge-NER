@@ -33,7 +33,7 @@ test_data = data.dataTest;
 
 %% Feature extractions
 param = [];
-[train_data, trained_model] = feature_processor(train_data, test_data, param);
+[train_data, test_data, trained_model] = feature_processor(train_data, test_data, param);
 
 %% Define settings
 % normalization method
@@ -46,13 +46,13 @@ svm_param.libsvm = [];
 svm_param.gnb.csfold = 5;
 
 %% Training and cross validation
-[classifier_model, norm_model] = epoch_to_classify_train(train_data, svm_param, norm_setting);
+[classifier_model, norm_model, fscore_model] = epoch_to_classify_train(train_data, svm_param, norm_setting);
 
 % evaluate performance
 % evalPerf(predictions, true_labels);
 
 %% Classification of testing data
-predictions = epoch_to_classify_test(test_data, classifier_model, norm_model, svm_param);
+predictions = epoch_to_classify_test(test_data, classifier_model, norm_model, svm_param, fscore_model);
 
 
 %% Write output file

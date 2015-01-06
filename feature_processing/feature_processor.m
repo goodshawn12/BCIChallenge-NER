@@ -1,4 +1,4 @@
-function [train_data, trained_model] = feature_processor(train_data, test_data, param)
+function [train_data, test_data, trained_model] = feature_processor(train_data, test_data, param)
 %% Taking derivative
 % train data
 [nsubj, nsession] = size(train_data);
