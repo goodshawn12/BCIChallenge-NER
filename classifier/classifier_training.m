@@ -1,6 +1,7 @@
 function [classifier_model] = classifier_training(feature_flow_train, param)
 % Ping-Keng Jao Jan. 5 2015
 [train_data, train_label] = get_data(feature_flow_train);
+train_data = double(train_data);
 %% run classifier
 switch upper(param.classifier_type)
     case 'LINEARSVM'
