@@ -34,7 +34,7 @@ lab = double(lab);
 if issparse(lab)
     lab = full(lab);
 end
-csearch = 2 ^ 3;
+csearch = 2 .^ (-10:10);
 csfold = 5;
 w0 = 1;
 verbose = 0;

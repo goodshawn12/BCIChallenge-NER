@@ -1,6 +1,7 @@
 function [labPr] = classifier_testing(feature_flow_test, classifier_model, param)
 % Ping-Keng Jao Jan. 5 2015
 test_data = get_data(feature_flow_test);
+test_data = double(test_data);
 %% run classifier
 switch upper(param.classifier_type)
     case 'LINEARSVM'

@@ -17,20 +17,18 @@ addpath(genpath('./'));
 data = load('inputDataCz.mat');
 train_data = data.dataTrain;
 test_data = data.dataTest;
-% train_data
-% test_data
 
 %% Pre-process the data of each subject
-
-% band-pass filtering
-lowcut = 0.5; highcut = 50; filterorder = [];
-EEG = pop_eegfiltnew(EEG, lowcut, highcut, filterorder, 0, [], 1);
-
-% resampling
-resampleRate = 100;
-EEG = pop_resample(EEG, resampleRate);
-
-% artifact removal
+% loaded data are already processed 
+% % band-pass filtering
+% lowcut = 0.5; highcut = 50; filterorder = [];
+% EEG = pop_eegfiltnew(EEG, lowcut, highcut, filterorder, 0, [], 1);
+% 
+% % resampling
+% resampleRate = 100;
+% EEG = pop_resample(EEG, resampleRate);
+% 
+% % artifact removal
 
 
 %% Feature extractions
@@ -38,7 +36,7 @@ EEG = pop_resample(EEG, resampleRate);
 
 %% Define settings
 % normalization method
-norm_setting = 5; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
+norm_setting = 6; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
 % classifier parameters
 svm_param.classifier_type = 'LINEARSVM';
 svm_param.linearsvm = [];
