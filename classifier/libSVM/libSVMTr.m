@@ -172,9 +172,14 @@ end
 %% corss-validataion
 acc = zeros(csfold, 1);
 for i = 1:csfold
-    te_idx = false(inst_n, 1);
-    te_idx(fold_idx{i}) = true;
-    tr_idx = ~te_idx;
+%     te_idx = false(inst_n, 1);
+    te_idx = fold_idx{i};
+    s = 1:csfold;
+    s(i) = [];
+    tr_idx = [];
+    for j =1:length(s)
+        tr_idx = [tr_idx; fold_idx{s(j)}];
+    end
     
     te_lab = lab(te_idx);
     tr_lab = lab(tr_idx);

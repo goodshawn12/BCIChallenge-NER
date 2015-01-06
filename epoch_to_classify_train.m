@@ -43,3 +43,18 @@ function [data] = get_data(in_data)
         end
     end
 end
+
+function [data] = get_data2(in_data, lll)
+    data = [];
+    [nsubj, nsession] = size(in_data);
+    for sub = 1:nsubj        
+        for ses = 1:nsession
+            ntrial = length(in_data{sub, ses});
+            for tri = 1:ntrial
+                if in_data{sub, ses}(tri).label == lll
+                    data = [data in_data{sub, ses}(tri).data];
+                end
+            end
+        end
+    end
+end

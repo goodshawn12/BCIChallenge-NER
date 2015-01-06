@@ -41,7 +41,7 @@ norm_setting = 6; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
 svm_param.classifier_type = 'LINEARSVM';
 svm_param.linearsvm = [];
 svm_param.libsvm = [];
-svm_param.gnb = [];
+svm_param.gnb.csfold = 5;
 
 %% Training and cross validation
 [classifier_model, norm_model] = epoch_to_classify_train(train_data, svm_param, norm_setting);
