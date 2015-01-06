@@ -32,7 +32,7 @@ function [data, label] = get_data(in_data)
             ntrial = length(in_data{sub, ses});
             for tri = 1:ntrial
                 data  = [data in_data{sub, ses}(tri).data];
-                label = [label; in_data{sub, ses}(tri).lab];
+                label = [label; in_data{sub, ses}(tri).label];
             end
         end
     end
