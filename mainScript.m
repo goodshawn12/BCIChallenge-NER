@@ -41,21 +41,22 @@ pars.totalTr = pars.nSubj*pars.subjTr;
 
 
 %% Feature extractions
-
+param = [];
+[train_data, test_data, trained_model] = feature_processor(train_data, test_data, param);
 
 %% Define settings
 % normalization method
-norm_setting = 9; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
+norm_setting = 0; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
 % classifier parameters
 svm_param.classifier_type = 'LINEARSVM';
+% svm_param.classifier_type = 'GNB';
 svm_param.linearsvm = [];
 svm_param.libsvm = [];
-svm_param.gnb = [];
+svm_param.gnb.csfold = 5;
 
 %% Training and cross validation
-% validSubj = ceil(mod(rand(1,4)*16,16));
+[classifier_model, norm_model, fscore_model] = epoch_to_classify_train(train_data, svm_param, norm_setting);
 % valid_data = train_data{}
-[classifier_model, norm_model] = epoch_to_classify_train(train_data, svm_param, norm_setting);
 
 % evaluate performance
 predictions = epoch_to_classify_test(train_data, classifier_model, norm_model, svm_param);
@@ -63,7 +64,7 @@ train_labels = getLabel(train_data,pars);
 evalPerf(predictions, train_labels);
 
 %% Classification of testing data
-predictions = epoch_to_classify_test(test_data, classifier_model, norm_model, svm_param);
+predictions = epoch_to_classify_test(test_data, classifier_model, norm_model, svm_param, fscore_model);
 predictions(predictions==-1)=0;
 
 %% Write output file
@@ -78,7 +79,7 @@ writeOutput(predictions, filename);
     %   1: sum to one
     %   2: square root
     %   3: cube root
-    %   4: tf-idf]
+    %   4: tf-idf
     %   5: z-score
     %   6: z-score (normalize to self)
     %   7: Euclidean
