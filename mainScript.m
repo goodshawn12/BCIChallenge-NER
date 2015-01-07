@@ -18,6 +18,15 @@ data = load('inputDataCz.mat');
 train_data = data.dataTrain;
 test_data = data.dataTest;
 
+% define parameters
+pars.nSubj = 16;
+pars.nSess = 5;
+pars.nTr = 60; % 5th session has 100 trials
+pars.extraTr = 40;
+pars.subjTr = pars.nSess*pars.nTr+pars.extraTr;
+pars.totalTr = pars.nSubj*pars.subjTr;
+
+
 %% Pre-process the data of each subject
 % loaded data are already processed 
 % % band-pass filtering
@@ -36,7 +45,7 @@ test_data = data.dataTest;
 
 %% Define settings
 % normalization method
-norm_setting = 6; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
+norm_setting = 9; % 5: z-score {[5], [6], [7], [8], [9], [3 9], [6 9]};
 % classifier parameters
 svm_param.classifier_type = 'LINEARSVM';
 svm_param.linearsvm = [];
@@ -44,14 +53,18 @@ svm_param.libsvm = [];
 svm_param.gnb = [];
 
 %% Training and cross validation
+% validSubj = ceil(mod(rand(1,4)*16,16));
+% valid_data = train_data{}
 [classifier_model, norm_model] = epoch_to_classify_train(train_data, svm_param, norm_setting);
 
 % evaluate performance
-% evalPerf(predictions, true_labels);
+predictions = epoch_to_classify_test(train_data, classifier_model, norm_model, svm_param);
+train_labels = getLabel(train_data,pars);
+evalPerf(predictions, train_labels);
 
 %% Classification of testing data
 predictions = epoch_to_classify_test(test_data, classifier_model, norm_model, svm_param);
-
+predictions(predictions==-1)=0;
 
 %% Write output file
 filename = 'Results.csv';
