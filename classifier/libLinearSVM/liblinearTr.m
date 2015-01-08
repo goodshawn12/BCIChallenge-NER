@@ -35,6 +35,7 @@ if issparse(lab)
     lab = full(lab);
 end
 csearch = 2 .^ (-10:10);
+% csearch = 2 .^ (0);
 csfold = 5;
 w0 = 1;
 verbose = 0;
@@ -42,7 +43,7 @@ s = 2;
 B = 1;
 
 if isfield(param, 's')
-    verbose = param.s;
+    s = param.s;
 end
 if isfield(param, 'csearch')
     csearch = param.csearch;
@@ -54,7 +55,7 @@ if isfield(param, 'w0')
     w0 = param.w0;
 end
 if isfield(param, 'B')
-    verbose = param.B;
+    B = param.B;
 end
 if isfield(param, 'verbose')
     verbose = param.verbose;
@@ -90,6 +91,7 @@ end
 
 %% train the svm model
 % note: no -v, so output is model
+display(['best acc: ', num2str(best_acc)]);
 svm_mod = train(lab, inst, [' -c ' num2str(best_c) ' -s ' num2str(s) ' -B ' ...
                             num2str(B) ' -w0 ' num2str(w0) ' -q']);
 
@@ -124,11 +126,11 @@ acc = zeros(csfold, 1);
 for i = 1:csfold
 %     te_idx = false(inst_n, 1);
     te_idx = fold_idx{i};
-    s = 1:csfold;
-    s(i) = [];
+    ss = 1:csfold;
+    ss(i) = [];
     tr_idx = [];
-    for j =1:length(s)
-        tr_idx = [tr_idx; fold_idx{s(j)}];
+    for j =1:length(ss)
+        tr_idx = [tr_idx; fold_idx{ss(j)}];
     end
     
     te_lab = lab(te_idx);
@@ -138,9 +140,10 @@ for i = 1:csfold
     svm_mod = train(tr_lab, tr_inst, [' -c ' num2str(c) ' -s ' num2str(s) ...
                 ' -B ' num2str(B) ' -w0 ' num2str(w0) ' -q']);
     [labPr, ~]  = liblinearPr(te_inst, svm_mod)
-    acc(i) = sum(labPr == te_lab)/length(te_lab);
+%     acc(i) = sum(labPr == te_lab)/length(te_lab);
+    auc(i) = evalPerf(labPr, te_lab);
 end
-acc = mean(acc);
+acc = mean(auc);
 end
 
 %% not totally balanced samples

@@ -36,7 +36,7 @@ if issparse(lab)
     lab = full(lab);
 end
 verbose = 0;
-csearch = 2 ^ 3;
+csearch = 2 .^ (-10:10);
 s = 0;
 kernel = 2;
 degree = 3;
@@ -58,8 +58,11 @@ err_eps = 0.001;
 shrink = 1;
 prob = 0;
 csfold = 5;
-
-param_set = fieldnames(param);
+if ~isempty(param)
+    param_set = fieldnames(param);
+else
+    param_set = [];
+end
 for i = 1:length(param_set)
     if strcmpi('csearch', param_set(i))
         csearch = param.csearch;
@@ -132,6 +135,7 @@ for c = csearch
 end
 
 %% train the svm model
+display(['best acc: ', num2str(best_acc)]);
 % note: no -v, so output is model
 svm_mod = svmtrain(lab, inst, [' -c ' num2str(best_c) ' -s ' num2str(s) ...
                 ' -t ' num2str(kernel) ' -d ' num2str(degree) ' -w0 ' num2str(w0)... 
@@ -174,11 +178,11 @@ acc = zeros(csfold, 1);
 for i = 1:csfold
 %     te_idx = false(inst_n, 1);
     te_idx = fold_idx{i};
-    s = 1:csfold;
-    s(i) = [];
+    ss = 1:csfold;
+    ss(i) = [];
     tr_idx = [];
-    for j =1:length(s)
-        tr_idx = [tr_idx; fold_idx{s(j)}];
+    for j =1:length(ss)
+        tr_idx = [tr_idx; fold_idx{ss(j)}];
     end
     
     te_lab = lab(te_idx);
@@ -190,7 +194,7 @@ for i = 1:csfold
                 ' -g ' num2str(gamma) ' -r ' num2str(coef0) ' -n ' num2str(nu) ...
                 ' -p ' num2str(epsi) ' -m ' num2str(cache) ' -e ' num2str(err_eps) ...
                 ' -h ' num2str(shrink) ' -b ' num2str(prob) ' -q']);
-    [labPr, ~]  = liblinearPr(te_inst, svm_mod)
+    [labPr, ~]  = svmpredict(te_inst, svm_mod)
     acc(i) = sum(labPr == te_lab)/length(te_lab);
 end
 acc = mean(acc);

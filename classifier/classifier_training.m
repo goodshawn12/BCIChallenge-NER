@@ -12,7 +12,7 @@ switch upper(param.classifier_type)
     case 'LIBSVM'
         %% training        
         train_data = sparse(train_data)';
-        train_label(train_label==2) = -1; % original is {0,1}, but SVM needs {-1,1}
+        train_label(train_label==0) = -1; % original is {0,1}, but SVM needs {-1,1}
         classifier_model = libSVMTr(train_data, train_label, param.libsvm);
     case 'GNB' % Gaussian Naive Bayesian
         %% training
