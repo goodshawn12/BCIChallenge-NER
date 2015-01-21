@@ -194,8 +194,8 @@ for i = 1:csfold
                 ' -g ' num2str(gamma) ' -r ' num2str(coef0) ' -n ' num2str(nu) ...
                 ' -p ' num2str(epsi) ' -m ' num2str(cache) ' -e ' num2str(err_eps) ...
                 ' -h ' num2str(shrink) ' -b ' num2str(prob) ' -q']);
-    [labPr, ~]  = svmpredict(te_inst, svm_mod)
-    acc(i) = sum(labPr == te_lab)/length(te_lab);
+    [labPr, acc(i), ~]  = svmpredict(te_lab, te_inst, svm_mod);
+%     acc(i) = sum(labPr == te_lab)/length(te_lab);
 end
 acc = mean(acc);
 end
@@ -243,8 +243,8 @@ for i = 1:csfold
                 ' -g ' num2str(gamma) ' -r ' num2str(coef0) ' -n ' num2str(nu) ...
                 ' -p ' num2str(epsi) ' -m ' num2str(cache) ' -e ' num2str(err_eps) ...
                 ' -h ' num2str(shrink) ' -b ' num2str(prob) ' -q']);
-    [labPr, ~]  = svmpredict(te_inst, svm_mod)
-    acc(i) = sum(labPr == te_lab)/length(te_lab);
+    [labPr, acc(i), ~]  = svmpredict(te_lab, te_inst, svm_mod);
+%     acc(i) = sum(labPr == te_lab)/length(te_lab);
 end
 acc = mean(acc);
 end
